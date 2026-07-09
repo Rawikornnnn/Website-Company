@@ -377,29 +377,46 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 40px 20px;
+            }
+    
+            .hero-content {
+                max-width: 100%;
+                width: 100%;
+            }
+    
             .services-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
-
+    
             .company-options {
                 grid-template-columns: 1fr;
             }
-
-
-            .hero {
-                flex-direction: column;
-            }
+    
 
             .features-section {
                 grid-template-columns: repeat(2, 1fr);
+                padding: 30px 20px;
             }
 
             nav {
                 gap: 20px;
+                font-size: 12px;
             }
-
+    
             .hero-title {
-                font-size: 32px;
+                font-size: 28px;
+            }
+    
+            .hero-subtitle {
+                font-size: 14px;
+            }
+    
+            header {
+                padding: 10px 20px;
             }
         }
     </style>
