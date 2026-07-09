@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -96,10 +97,103 @@
             color: white;
         }
 
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 50% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #2d7a4a;
+        }
+
+        .modal-title {
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            flex-direction: column;
+        }
+
+        .modal-btn {
+            background-color: #2d7a4a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .modal-btn:hover {
+            background-color: #1f5433;
+        }
+
         /* Hero Section */
         .hero {
             background: linear-gradient(90deg, rgba(240, 248, 240, 0.7) 0%, rgba(232, 245, 232, 0.4) 30%, rgba(200, 230, 200, 0.3) 100%),
-                        url('Background Overall.png') no-repeat center/cover;
+                url('Background Overall.png') no-repeat center/cover;
             background-attachment: scroll;
             padding: 60px 50px;
             display: flex;
@@ -152,7 +246,7 @@
         .service-item {
             text-align: center;
             padding: 20px;
-            background-color: rgba(255,255,255,0.6);
+            background-color: rgba(255, 255, 255, 0.6);
             border-radius: 10px;
             transition: transform 0.3s;
         }
@@ -347,7 +441,7 @@
             color: #2d7a4a;
             font-size: 28px;
             margin: 0 auto 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .feature-title {
@@ -381,21 +475,27 @@
                 flex-direction: column;
                 padding: 40px 20px;
             }
-    
+
             .hero-content {
                 max-width: 100%;
                 width: 100%;
             }
-    
+
+            .service-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+
             .services-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
-    
+
             .company-options {
                 grid-template-columns: 1fr;
             }
-    
+
 
             .features-section {
                 grid-template-columns: repeat(2, 1fr);
@@ -406,21 +506,22 @@
                 gap: 20px;
                 font-size: 12px;
             }
-    
+
             .hero-title {
                 font-size: 28px;
             }
-    
+
             .hero-subtitle {
                 font-size: 14px;
             }
-    
+
             header {
                 padding: 10px 20px;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -438,9 +539,15 @@
         </nav>
 
         <div class="social-icons">
-            <a href="#" title="Facebook">f</a>
-            <a href="#" title="Line">⬤</a>
-            <a href="#" title="Phone">☎</a>
+            <a href="#" title="Facebook">
+                <img src="facebook-icon.png" alt="Facebook" style="width: 20px; height: 20px;">
+            </a>
+            <a href="#" title="Line" onclick="openLineModal(event)">
+                <img src="line-icon.png" alt="Line" style="width: 20px; height: 20px;">
+            </a>
+            <a href="#contact" title="Phone">
+                <img src="phone-icon.png" alt="Phone" style="width: 20px; height: 20px;">
+            </a>
         </div>
     </header>
 
@@ -455,16 +562,6 @@
             <p class="hero-description">ผู้นำด้านบริการนำเข้า ส่งออก และขนส่ง</p>
 
             <div class="services-grid">
-                <div class="service-item">
-                    <div class="service-icon">⛴</div>
-                    <div class="service-name">SEA FREIGHT</div>
-                    <div class="service-desc">บริการขนส่งทางเรือ</div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">✈</div>
-                    <div class="service-name">AIR FREIGHT</div>
-                    <div class="service-desc">บริการขนส่งทางอากาศ</div>
-                </div>
                 <div class="service-item">
                     <div class="service-icon">🚚</div>
                     <div class="service-name">LAND TRANSPORT</div>
@@ -494,7 +591,8 @@
                 <p class="company-subtitle">RR INTERTRANS - อาร์อาร์ อินเตอร์ทรานส์</p>
 
                 <div class="company-card-image">
-                    <img src="RR Background.png" alt="Truck" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
+                    <img src="RR Background.png" alt="Truck"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
                 </div>
 
                 <div class="company-service">
@@ -502,11 +600,13 @@
                     <div class="service-text">
                         <div class="service-text-title">บริษัทขนส่ง</div>
                         <div class="service-text-desc">TRANSPORTATION</div>
-                        <div class="service-text-desc" style="margin-top: 5px;">บริการขนส่งสินค้าในประเทศและต่างประเทศ ราคาถูก บริการดี ตรงเวลา</div>
+                        <div class="service-text-desc" style="margin-top: 5px;">บริการขนส่งสินค้าในประเทศและต่างประเทศ
+                            ราคาถูก บริการดี ตรงเวลา</div>
                     </div>
                 </div>
 
-                <a href="rr-intertrans.html" class="enter-btn" style="text-decoration: none; display: inline-block;">ENTER SITE →</a>
+                <a href="rr-intertrans.html" class="enter-btn"
+                    style="text-decoration: none; display: inline-block;">ENTER SITE →</a>
 
             </div>
 
@@ -516,7 +616,8 @@
                 <p class="company-subtitle">CL MASTER - ซีแอล มาสเตอร์</p>
 
                 <div class="company-card-image">
-                    <img src="CL Background.png" alt="Truck" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
+                    <img src="CL Background.png" alt="Truck"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
                 </div>
 
                 <div class="company-service">
@@ -524,11 +625,13 @@
                     <div class="service-text">
                         <div class="service-text-title">ดำเนินการด้านเอกสารและพิธีการศุลกากร</div>
                         <div class="service-text-desc">CUSTOM CLEARANCE</div>
-                        <div class="service-text-desc" style="margin-top: 5px;">บริการดำเนินการนำเข้า-ส่งออกตามกฎหมายในประเทศและต่างประเทศ อย่างครบวงจร</div>
+                        <div class="service-text-desc" style="margin-top: 5px;">
+                            บริการดำเนินการนำเข้า-ส่งออกตามกฎหมายในประเทศและต่างประเทศ อย่างครบวงจร</div>
                     </div>
                 </div>
 
-                <a href="cl-master.html" class="enter-btn" style="text-decoration: none; display: inline-block;">ENTER SITE →</a>
+                <a href="cl-master.html" class="enter-btn" style="text-decoration: none; display: inline-block;">ENTER
+                    SITE →</a>
             </div>
         </div>
     </section>
@@ -559,12 +662,42 @@
             <div class="feature-desc">One Stop Service</div>
         </div>
     </section>
-
+    <!-- Line Modal -->
+    <div id="lineModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLineModal()">&times;</span>
+            <div class="modal-title">เลือกบริษัท</div>
+            <div class="modal-buttons">
+                <a href="https://line.me/ti/p/RR_INTERTRANS" class="modal-btn">RR INTERTRANS</a>
+                <a href="https://line.me/ti/p/CL_MASTER" class="modal-btn">CL MASTER</a>
+            </div>
+        </div>
+    </div>
     <!-- Footer -->
     <footer id="contact">
         <p>&copy; 2024 RR INTERTRANS & CL MASTER. All rights reserved.</p>
-        <p>Contact(RR INTERTRANS): rrbkk@yahoo.com | Phone: +6661-939-9692</p>
-        <p>Contact(CL MASTER): clbkk@yahoo.com | Phone: +6680-989-5398</p>
+        <p>Contact(RR INTERTRANS): rrbkk@yahoo.com | Phone: 061-939-9692</p>
+        <p>Contact(CL MASTER): clbkk@yahoo.com | Phone: 080-989-5398</p>
     </footer>
+    <script>
+        // Line Modal Functions
+        function openLineModal(event) {
+            event.preventDefault();
+            document.getElementById("lineModal").style.display = "block";
+        }
+
+        function closeLineModal() {
+            document.getElementById("lineModal").style.display = "none";
+        }
+
+        // ปิด modal เมื่อคลิกนอก modal
+        window.onclick = function (event) {
+            var modal = document.getElementById("lineModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
+
 </html>
